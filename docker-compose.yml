@@ -1,9 +1,16 @@
 services:
   web:
     build: .
-    ports:
-      - "8080:80"
     volumes:
       # Hot-reload: mount local index.html directly during development
       - ./index.html:/usr/share/nginx/html/index.html:ro
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.abler-tirol.tls=true"
+      - "traefik.http.routers.abler-tirol.tls.certresolver=letsEncrypt"
+      - "traefik.http.routers.abler-tirol.entrypoints=websecure"
+      - "traefik.http.routers.abler-tirol.rule=Host(`abler.tirol`)"
+      - "traefik.http.routers.abler-tirol.priority=10"
+      # Interner Container-Port des Frontends (ggf. anpassen)
+      - "traefik.http.services.abler-tirol.loadbalancer.server.port=80"
