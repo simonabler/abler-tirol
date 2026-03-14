@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simon Abler · abler.tirol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f7f7f4;
+      --white:    #ffffff;
+      --fbfbf9:   #fbfbf9;
+      --ink:      #0f172a;
+      --ink2:     #475569;
+      --ink3:     #94a3b8;
+      --border:   #e2e8f0;
+      --border2:  rgba(226,232,240,0.7);
+      --hub-from: #0f172a;
+      --hub-to:   #334155;
+      --klara-from: #064e3b;
+      --klara-to:   #065f46;
+      --mono:     'DM Mono', monospace;
+      --sans:     'Inter', sans-serif;
+      --radius-xl: 2rem;
+      --radius-lg: 1.5rem;
+      --shadow-card: 0 25px 80px -30px rgba(15,23,42,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── i18n ── */
+    [data-lang]      { display: none !important; }
+    span[data-lang]  { display: none !important; }
+    body.de [data-lang="de"]       { display: revert !important; }
+    body.en [data-lang="en"]       { display: revert !important; }
+    body.de span[data-lang="de"]   { display: inline !important; }
+    body.en span[data-lang="en"]   { display: inline !important; }
+
+    /* ── LANG TOGGLE ── */
+    .lang-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      color: var(--ink3);
+      transition: background 0.18s, color 0.18s;
+    }
+    .lang-toggle button.active {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    /* ── NAV ── */
+    nav {
+      border-bottom: 1px solid var(--border2);
+      background: linear-gradient(to bottom, var(--white), var(--bg));
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav-logo {
+      font-size: 0.8rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-logo:hover { color: var(--ink); }
+    .nav-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+    .nav-badge {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.8);
+      color: var(--ink2);
+      font-size: 0.78rem;
+      padding: 0.28rem 0.85rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-badge:hover { border-color: #94a3b8; color: var(--ink); }
+
+    /* ── HERO ── */
+    #hero {
+      border-bottom: 1px solid var(--border2);
+      background: linear-gradient(to bottom, var(--white), var(--bg));
+    }
+    .hero-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 6rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: end;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.2rem, 5vw, 3.75rem);
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-h1 .muted { color: var(--ink2); display: block; }
+
+    .hero-p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--ink2);
+      max-width: 42rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    .btn-dark {
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-dark:hover { background: #1e293b; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--ink2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: #94a3b8; color: var(--ink); transform: translateY(-1px); }
+
+    /* hero dashboard widget */
+    .hero-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .hero-card-bar {
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .hero-card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    .widget-top {
+      background: var(--fbfbf9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .widget-top-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .widget-label { font-size: 0.8rem; color: var(--ink3); margin-bottom: 0.15rem; }
+    .widget-num { font-size: 1.5rem; font-weight: 600; }
+    .widget-live {
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.65rem;
+      font-family: var(--mono);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    .widget-row {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .widget-row:last-child { margin-bottom: 0; }
+    .widget-row-label { font-weight: 500; }
+    .widget-row-tag { font-size: 0.75rem; color: var(--ink3); }
+
+    .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .widget-dark {
+      background: var(--hub-from);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .widget-dark .wl { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem; }
+    .widget-dark .wv { font-size: 0.88rem; font-weight: 500; line-height: 1.4; }
+    .widget-green {
+      background: var(--klara-from);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .widget-green .wl { font-size: 0.75rem; color: #6ee7b7; margin-bottom: 0.5rem; }
+    .widget-green .wv { font-size: 0.88rem; font-weight: 500; line-height: 1.4; }
+
+    /* ── PRODUCTS ── */
+    #products {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+    .section-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 0.75rem;
+    }
+    .section-h2 {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--ink2);
+      max-width: 42rem;
+      font-weight: 300;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px -15px rgba(15,23,42,0.18);
+    }
+
+    .card-top-hub {
+      background: linear-gradient(135deg, var(--hub-from), var(--hub-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-top-klara {
+      background: linear-gradient(135deg, var(--klara-from), var(--klara-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.75rem;
+    }
+    .card-name { font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; }
+    .card-domain { font-size: 0.78rem; opacity: 0.75; margin-top: 0.2rem; font-family: var(--mono); }
+
+    .card-body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+    .card-desc {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink2);
+      font-weight: 300;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+    .tag {
+      border: 1px solid var(--border);
+      color: var(--ink2);
+      font-size: 0.73rem;
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      font-family: var(--mono);
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+    .card-link {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: gap 0.2s;
+    }
+    .product-card:hover .card-link { gap: 0.6rem; }
+    .card-globe { color: var(--ink3); font-size: 1rem; }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+    }
+    .about-title { max-width: 26rem; }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .principle-card {
+      border: 1px solid var(--border);
+      background: var(--fbfbf9);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+    }
+    .principle-icon { font-size: 1.1rem; margin-bottom: 1rem; }
+    .principle-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .principle-text { font-size: 0.82rem; line-height: 1.65; color: var(--ink2); }
+
+    .cards-bottom {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .profile-card {
+      background: var(--fbfbf9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+    }
+    .profile-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .avatar {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 1rem;
+      background: var(--ink);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-fb { color: #fff; font-family: var(--mono); font-size: 1rem; }
+    .profile-name { font-size: 1.1rem; font-weight: 600; }
+    .profile-sub { font-size: 0.82rem; color: var(--ink2); margin-top: 0.1rem; }
+    .profile-bio { font-size: 0.88rem; line-height: 1.75; color: var(--ink2); font-weight: 300; margin-bottom: 1.5rem; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .social-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .social-btn {
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--ink2);
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .social-btn:hover { border-color: #94a3b8; color: var(--ink); transform: translateY(-1px); }
+
+    .skills-card {
+      background: var(--ink);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+    }
+    .skills-card-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .skills-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+      color: #f1f5f9;
+    }
+    .skill-group { margin-bottom: 1.1rem; }
+    .skill-group-label {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      font-family: var(--mono);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.45rem;
+    }
+    .skill-tags-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill-tag {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #e2e8f0;
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      padding: 0.25rem 0.65rem;
+      border-radius: 5px;
+    }
+    .skills-card-btns {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.8rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-white {
+      background: #fff;
+      color: var(--ink);
+      border: none;
+      border-radius: 999px;
+      padding: 0.55rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .btn-white:hover { background: #f1f5f9; transform: translateY(-1px); }
+    .btn-outline-white {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 0.55rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.5); transform: translateY(-1px); }
+
+    /* ── CTA ── */
+    #cta {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+    .cta-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .cta-eyebrow { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.75rem; }
+    .cta-h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .cta-p { font-size: 1rem; line-height: 1.75; color: var(--ink2); font-weight: 300; max-width: 38rem; }
+    .cta-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: flex-end; }
+    .btn-green {
+      background: var(--klara-from);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.65rem 1.4rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-green:hover { background: #065f46; transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+    .footer-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-size: 0.75rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: var(--ink3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy { font-size: 0.75rem; color: var(--ink3); font-family: var(--mono); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge  { animation: fadeUp 0.5s 0.05s both; }
+    .hero-h1     { animation: fadeUp 0.55s 0.12s both; }
+    .hero-p      { animation: fadeUp 0.55s 0.2s both; }
+    .hero-btns   { animation: fadeUp 0.55s 0.28s both; }
+    .hero-card   { animation: fadeUp 0.65s 0.18s both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner    { grid-template-columns: 1fr; }
+      .hero-card     { display: none; }
+      .products-grid { grid-template-columns: 1fr; }
+      .about-grid    { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .cards-bottom  { grid-template-columns: 1fr; }
+      .cta-card      { grid-template-columns: 1fr; }
+      .cta-btns      { justify-content: flex-start; }
+      .nav-badges    { display: none; }
+    }
+    @media (max-width: 600px) {
+      #hero, #products, #cta { padding-left: 1rem; padding-right: 1rem; }
+      .about-inner { padding-left: 1rem; padding-right: 1rem; }
+      .hero-inner  { padding: 3rem 1rem 4rem; }
+      .cta-card    { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body class="de">
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">abler.tirol</a>
+      <div class="nav-badges">
+        <a href="https://hub.abler.tirol" class="nav-badge" target="_blank">hub</a>
+        <a href="https://klara.abler.tirol" class="nav-badge" target="_blank">klara</a>
+        <a href="#about" class="nav-badge">Simon Abler</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="active" onclick="setLang('de')">DE</button>
+        <button onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span data-lang="de">Produkte, Software & Umsetzung aus Tirol</span>
+          <span data-lang="en">Products, Software & Engineering from Tyrol</span>
+        </div>
+        <h1 class="hero-h1">
+          <span data-lang="de">Ich entwickle digitale Produkte,<span class="muted">die klar wirken und sauber funktionieren.</span></span>
+          <span data-lang="en">I build digital products<span class="muted">that are clear in purpose and clean in execution.</span></span>
+        </h1>
+        <p class="hero-p">
+          <span data-lang="de">Auf abler.tirol steht nicht ein einzelnes Produkt im Mittelpunkt, sondern die Verbindung aus technischer Tiefe, ruhigem Design und praxisnaher Software. Persönliche Handschrift und konkrete Anwendungen.</span>
+          <span data-lang="en">abler.tirol is not about a single product — it's about the connection between technical depth, calm design and practical software. A personal signature and concrete applications.</span>
+        </p>
+        <div class="hero-btns">
+          <a href="#products" class="btn-dark">
+            <span data-lang="de">Projekte ansehen</span>
+            <span data-lang="en">View Projects</span>
+            →
+          </a>
+          <a href="#about" class="btn-outline">
+            <span data-lang="de">Über mich</span>
+            <span data-lang="en">About me</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-bar">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="hero-card-body">
+          <div class="widget-top">
+            <div class="widget-top-head">
+              <div>
+                <div class="widget-label"><span data-lang="de">Aktive Produkte</span><span data-lang="en">Active Products</span></div>
+                <div class="widget-num">2</div>
+              </div>
+              <div class="widget-live">live</div>
+            </div>
+            <div class="widget-row">
+              <span class="widget-row-label">hub.abler.tirol</span>
+              <span class="widget-row-tag">technical</span>
+            </div>
+            <div class="widget-row">
+              <span class="widget-row-label">klara.abler.tirol</span>
+              <span class="widget-row-tag">product-led</span>
+            </div>
+          </div>
+          <div class="widget-grid">
+            <div class="widget-dark">
+              <div class="wl"><span data-lang="de">Fokus</span><span data-lang="en">Focus</span></div>
+              <div class="wv"><span data-lang="de">Web, APIs, Produktentwicklung</span><span data-lang="en">Web, APIs, Product Engineering</span></div>
+            </div>
+            <div class="widget-green">
+              <div class="wl"><span data-lang="de">Arbeitsweise</span><span data-lang="en">Approach</span></div>
+              <div class="wv"><span data-lang="de">ruhig, direkt, sauber umgesetzt</span><span data-lang="en">calm, direct, cleanly executed</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="section-eyebrow"><span data-lang="de">Projekte</span><span data-lang="en">Projects</span></div>
+    <h2 class="section-h2"><span data-lang="de">Zwei Produkte, eine Handschrift.</span><span data-lang="en">Two products, one signature.</span></h2>
+    <p class="section-p">
+      <span data-lang="de">Keine Portfolio-Sammlung, sondern ein Ökosystem. Jedes Produkt bekommt Raum – die Klammer bleibt sichtbar: Stil, Haltung, Umsetzung.</span>
+      <span data-lang="en">Not a portfolio dump, but an ecosystem. Each product gets space — the common thread stays visible: style, values, execution.</span>
+    </p>
+
+    <div class="products-grid">
+      <a href="https://hub.abler.tirol" class="product-card" target="_blank">
+        <div class="card-top-hub">
+          <div class="card-eyebrow"><span data-lang="de">Developer Tools & APIs</span><span data-lang="en">Developer Tools & APIs</span></div>
+          <div class="card-name">hub</div>
+          <div class="card-domain">hub.abler.tirol</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">QR-Codes, Barcodes, GS1, Kryptografie, Wasserzeichen – als schnelle, stabile REST-API. Strukturiert, direkt nutzbar, ohne unnötigen Overhead. Kostenlos starten.</span>
+            <span data-lang="en">QR codes, barcodes, GS1, cryptography, watermarks – as a fast, stable REST API. Well-structured, directly usable, no unnecessary overhead. Free to start.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">APIs</span><span class="tag">NestJS</span><span class="tag">Angular</span><span class="tag">GS1</span><span class="tag">Swagger</span><span class="tag">&lt;50ms</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
+            <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://klara.abler.tirol" class="product-card" target="_blank">
+        <div class="card-top-klara">
+          <div class="card-eyebrow"><span data-lang="de">Software für Lehrkräfte</span><span data-lang="en">Software for Teachers</span></div>
+          <div class="card-name">klara</div>
+          <div class="card-domain">klara.abler.tirol</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">Schülerprofile, Beobachtungen, Leistungen – alles an einem Ort. Ein ruhiges, datensensibles Produkt für den Schulalltag. Open Source, Self-Hosted, DSGVO-konform.</span>
+            <span data-lang="en">Student profiles, observations, assessments – all in one place. A calm, privacy-first tool for everyday school life. Open source, self-hosted, GDPR-compliant.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">Education</span><span class="tag">Open Source</span><span class="tag">DSGVO / GDPR</span><span class="tag">Self-Hosted</span><span class="tag">Angular</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
+            <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-grid">
+        <div class="about-title">
+          <div class="section-eyebrow"><span data-lang="de">Über mich</span><span data-lang="en">About me</span></div>
+          <h2 class="section-h2">
+            <span data-lang="de">Nicht Agentur. Nicht Plattform. Persönliche Produktarbeit.</span>
+            <span data-lang="en">Not an agency. Not a platform. Personal product work.</span>
+          </h2>
+        </div>
+        <div>
+          <p class="section-p" style="margin-bottom:1.8rem">
+            <span data-lang="de">Technisch stark, detailgenau – mit klarem Gespür für Sicherheit, Usability und saubere Umsetzung. Die Person hinter den Produkten ist sichtbar, aber kein klassisches CV.</span>
+            <span data-lang="en">Technically strong, detail-oriented — with a clear sense for security, usability and clean execution. The person behind the products is visible, but this isn't a classic CV.</span>
+          </p>
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="principle-icon">🔐</div>
+              <div class="principle-title"><span data-lang="de">Sicher gedacht</span><span data-lang="en">Security-first</span></div>
+              <p class="principle-text"><span data-lang="de">Sicherheit, Datenschutz und robuste Architektur sind keine Extras, sondern Ausgangspunkt.</span><span data-lang="en">Security, privacy and robust architecture are not extras — they're the starting point.</span></p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">⬜</div>
+              <div class="principle-title"><span data-lang="de">Reduziert gestaltet</span><span data-lang="en">Reduced design</span></div>
+              <p class="principle-text"><span data-lang="de">Viel Weißraum, klare Hierarchien und wenige, bewusste Akzente statt visueller Lautstärke.</span><span data-lang="en">Generous whitespace, clear hierarchies and few, intentional accents rather than visual noise.</span></p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">⚙️</div>
+              <div class="principle-title"><span data-lang="de">Technisch präzise</span><span data-lang="en">Technically precise</span></div>
+              <p class="principle-text"><span data-lang="de">Produkte sollen nicht nur gut aussehen, sondern nachvollziehbar funktionieren.</span><span data-lang="en">Products should not just look good — they should work in ways that are understandable.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards-bottom">
+        <div class="profile-card">
+          <div class="profile-head">
+            <div class="avatar">
+              <img src="https://www.gravatar.com/avatar/fd97500da3d31da41dbfc114c04d2e455c32401de85c35ed6ceca18a09cc1957?s=192&d=identicon" alt="Simon Abler" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=avatar-fb>SA</span>'" />
+            </div>
+            <div>
+              <div class="profile-name">Simon Abler</div>
+              <div class="profile-sub"><span data-lang="de">Cyber Security Engineer · Tirol</span><span data-lang="en">Cyber Security Engineer · Tyrol</span></div>
+            </div>
+          </div>
+          <p class="profile-bio">
+            <span data-lang="de">Ich entwickle Anwendungen vom Konzept bis zum Betrieb – mit Fokus auf Sicherheit, Datenhoheit, verständliche Interfaces und solide technische Basis. Reverse Engineering, industrielle Hochverfügbarkeit und API-Architekturen.</span>
+            <span data-lang="en">I build applications from concept to production — focused on security, data sovereignty, clear interfaces and solid technical foundations. Reverse engineering, industrial high-availability and API architectures.</span>
+          </p>
+          <div class="profile-tags">
+            <span class="tag">Angular</span><span class="tag">NestJS</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Security</span><span class="tag">Open Source</span>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com/simonabler" class="social-btn" target="_blank">⌥ GitHub</a>
+            <a href="https://www.linkedin.com/in/simon-abler-b88a60157" class="social-btn" target="_blank">in LinkedIn</a>
+            <a href="mailto:simon@abler.tirol" class="social-btn">✉ E-Mail</a>
+          </div>
+        </div>
+
+        <div class="skills-card">
+          <div class="skills-card-eyebrow">
+            <span>📋</span>
+            <span data-lang="de">Skills & Technologien</span>
+            <span data-lang="en">Skills & Technologies</span>
+          </div>
+          <h3>
+            <span data-lang="de">abler.tirol ist die Klammer über Produkten, Haltung und technischer Umsetzung.</span>
+            <span data-lang="en">abler.tirol is the umbrella over products, values and technical execution.</span>
+          </h3>
+          <div class="skill-group">
+            <div class="skill-group-label">🔐 Reverse Engineering</div>
+            <div class="skill-tags-row"><span class="skill-tag">Firmware Analysis</span><span class="skill-tag">Protocol RE</span><span class="skill-tag">Binary Analysis</span><span class="skill-tag">HW Debugging</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">⚙️ Industrial HA</div>
+            <div class="skill-tags-row"><span class="skill-tag">PLC / SCADA</span><span class="skill-tag">Redundancy Design</span><span class="skill-tag">24/7 Operations</span><span class="skill-tag">Failover</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">💻 Full-Stack</div>
+            <div class="skill-tags-row"><span class="skill-tag">NestJS</span><span class="skill-tag">Angular</span><span class="skill-tag">Linux</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">Docker</span><span class="skill-tag">.NET</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">🛡️ Security</div>
+            <div class="skill-tags-row"><span class="skill-tag">GS1 / PKI</span><span class="skill-tag">JWT / OAuth</span><span class="skill-tag">Ed25519</span><span class="skill-tag">DSGVO / GDPR</span></div>
+          </div>
+          <div class="skills-card-btns">
+            <a href="mailto:simon@abler.tirol" class="btn-white"><span data-lang="de">Kontakt</span><span data-lang="en">Contact</span></a>
+            <a href="https://github.com/simonabler" class="btn-outline-white" target="_blank">GitHub ⌥</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-card">
+      <div>
+        <div class="cta-eyebrow"><span data-lang="de">Einstieg</span><span data-lang="en">Get started</span></div>
+        <h2 class="cta-h2"><span data-lang="de">Produkte entdecken oder direkt Kontakt aufnehmen.</span><span data-lang="en">Explore the products or get in touch directly.</span></h2>
+        <p class="cta-p">
+          <span data-lang="de">Je nach Interesse direkt zu hub, zu klara oder zu einer persönlichen Nachricht – ohne Umweg und ohne Reizüberflutung.</span>
+          <span data-lang="en">Go straight to hub, to klara or send a personal message — no detours, no noise.</span>
+        </p>
+      </div>
+      <div class="cta-btns">
+        <a href="https://hub.abler.tirol" class="btn-dark" target="_blank"><span data-lang="de">hub öffnen</span><span data-lang="en">Open hub</span></a>
+        <a href="https://klara.abler.tirol" class="btn-green" target="_blank"><span data-lang="de">klara öffnen</span><span data-lang="en">Open klara</span></a>
+        <a href="#about" class="btn-outline"><span data-lang="de">Über Simon</span><span data-lang="en">About Simon</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">abler.tirol</span>
+      <div class="footer-links">
+        <a href="https://hub.abler.tirol/impressum"><span data-lang="de">Impressum</span><span data-lang="en">Imprint</span></a>
+        <a href="mailto:simon@abler.tirol">simon@abler.tirol</a>
+      </div>
+      <span class="footer-copy">© 2026 Simon Abler</span>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.body.className = lang;
+      document.querySelectorAll('.lang-toggle button').forEach((btn, i) => {
+        btn.classList.toggle('active', (i === 0 && lang === 'de') || (i === 1 && lang === 'en'));
+      });
+    }
+  </script>
+</body>
+</html>
