@@ -22,6 +22,12 @@
       --hub-to:   #334155;
       --klara-from: #064e3b;
       --klara-to:   #065f46;
+      --barcode-from: #78350f;
+      --barcode-to:   #92400e;
+      --pdf-from: #1e1b4b;
+      --pdf-to:   #312e81;
+      --daedalus-from: #1a1a2e;
+      --daedalus-to:   #16213e;
       --mono:     'DM Mono', monospace;
       --sans:     'Inter', sans-serif;
       --radius-xl: 2rem;
@@ -299,6 +305,18 @@
       gap: 1.5rem;
       margin-top: 2.5rem;
     }
+    .product-card.card-wide {
+      grid-column: 1 / -1;
+    }
+    @media (min-width: 901px) {
+      .product-card.card-wide {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+      }
+      .product-card.card-wide .card-top-daedalus {
+        border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+      }
+    }
 
     .product-card {
       background: var(--white);
@@ -324,6 +342,21 @@
     }
     .card-top-klara {
       background: linear-gradient(135deg, var(--klara-from), var(--klara-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-top-barcode {
+      background: linear-gradient(135deg, var(--barcode-from), var(--barcode-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-top-pdf {
+      background: linear-gradient(135deg, var(--pdf-from), var(--pdf-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-top-daedalus {
+      background: linear-gradient(135deg, var(--daedalus-from), var(--daedalus-to));
       padding: 2rem;
       color: #fff;
     }
@@ -620,6 +653,7 @@
       .hero-inner    { grid-template-columns: 1fr; }
       .hero-card     { display: none; }
       .products-grid { grid-template-columns: 1fr; }
+      .product-card.card-wide { grid-column: auto; display: flex; flex-direction: column; }
       .about-grid    { grid-template-columns: 1fr; }
       .principles-grid { grid-template-columns: 1fr; }
       .cards-bottom  { grid-template-columns: 1fr; }
@@ -690,7 +724,7 @@
             <div class="widget-top-head">
               <div>
                 <div class="widget-label"><span data-lang="de">Aktive Produkte</span><span data-lang="en">Active Products</span></div>
-                <div class="widget-num">2</div>
+                <div class="widget-num">5</div>
               </div>
               <div class="widget-live">live</div>
             </div>
@@ -721,10 +755,10 @@
   <!-- PRODUCTS -->
   <section id="products">
     <div class="section-eyebrow"><span data-lang="de">Projekte</span><span data-lang="en">Projects</span></div>
-    <h2 class="section-h2"><span data-lang="de">Zwei Produkte, eine Handschrift.</span><span data-lang="en">Two products, one signature.</span></h2>
+    <h2 class="section-h2"><span data-lang="de">Fünf Projekte, eine Handschrift.</span><span data-lang="en">Five projects, one signature.</span></h2>
     <p class="section-p">
-      <span data-lang="de">Keine Portfolio-Sammlung, sondern ein Ökosystem. Jedes Produkt bekommt Raum – die Klammer bleibt sichtbar: Stil, Haltung, Umsetzung.</span>
-      <span data-lang="en">Not a portfolio dump, but an ecosystem. Each product gets space — the common thread stays visible: style, values, execution.</span>
+      <span data-lang="de">Von der REST-API bis zum lokalen KI-Agentensystem – unterschiedliche Zielgruppen, eine technische Haltung. Klar, sicher, sauber umgesetzt.</span>
+      <span data-lang="en">From REST APIs to local AI agent systems — different audiences, one technical standard. Clear, secure, cleanly executed.</span>
     </p>
 
     <div class="products-grid">
@@ -736,8 +770,8 @@
         </div>
         <div class="card-body">
           <p class="card-desc">
-            <span data-lang="de">QR-Codes, Barcodes, GS1, Kryptografie, Wasserzeichen – als schnelle, stabile REST-API. Strukturiert, direkt nutzbar, ohne unnötigen Overhead. Kostenlos starten.</span>
-            <span data-lang="en">QR codes, barcodes, GS1, cryptography, watermarks – as a fast, stable REST API. Well-structured, directly usable, no unnecessary overhead. Free to start.</span>
+            <span data-lang="de">Die zentrale REST-API des Ökosystems. QR-Codes, Barcodes, GS1, Kryptografie, Wasserzeichen – schnell, stabil, öffentlich nutzbar. CORS open, kostenlos starten.</span>
+            <span data-lang="en">The central REST API of the ecosystem. QR codes, barcodes, GS1, cryptography, watermarks — fast, stable, publicly usable. CORS open, free to start.</span>
           </p>
           <div class="card-tags">
             <span class="tag">APIs</span><span class="tag">NestJS</span><span class="tag">Angular</span><span class="tag">GS1</span><span class="tag">Swagger</span><span class="tag">&lt;50ms</span>
@@ -766,6 +800,69 @@
           <div class="card-footer">
             <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
             <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://barcode.abler.tirol" class="product-card" target="_blank">
+        <div class="card-top-barcode">
+          <div class="card-eyebrow"><span data-lang="de">Generator · Logistik & Handel</span><span data-lang="en">Generator · Logistics & Retail</span></div>
+          <div class="card-name">barcode</div>
+          <div class="card-domain">barcode.abler.tirol</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">QR-Codes, Standard-Barcodes und GS1 – visuell, direkt nutzbar, ohne Registrierung. Pure Frontend, alle Daten kommen von api.abler.tirol.</span>
+            <span data-lang="en">QR codes, standard barcodes and GS1 — visual, directly usable, no registration. Pure frontend, all data from api.abler.tirol.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">QR</span><span class="tag">GS1</span><span class="tag">EAN</span><span class="tag">Pure Frontend</span><span class="tag"><span data-lang="de">demnächst</span><span data-lang="en">soon</span></span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
+            <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://pdf.abler.tirol" class="product-card" target="_blank">
+        <div class="card-top-pdf">
+          <div class="card-eyebrow"><span data-lang="de">PDF Werkzeugkasten · Büro & Verwaltung</span><span data-lang="en">PDF Toolkit · Office & Admin</span></div>
+          <div class="card-name">pdf</div>
+          <div class="card-domain">pdf.abler.tirol</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">Signieren, zusammenführen, aufteilen – direkt im Browser. Kein Upload zu Drittanbietern, keine Registrierung. Pure Frontend auf api.abler.tirol.</span>
+            <span data-lang="en">Sign, merge, split — directly in the browser. No upload to third parties, no registration. Pure frontend on api.abler.tirol.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">Signpack</span><span class="tag">Merge</span><span class="tag">Split</span><span class="tag">Pure Frontend</span><span class="tag"><span data-lang="de">demnächst</span><span data-lang="en">soon</span></span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
+            <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://github.com/simonabler/Daedalus" class="product-card card-wide" target="_blank">
+        <div class="card-top-daedalus">
+          <div class="card-eyebrow"><span data-lang="de">Lokales Multi-Agent AI System</span><span data-lang="en">Local Multi-Agent AI System</span></div>
+          <div class="card-name">Daedalus</div>
+          <div class="card-domain">github.com/simonabler/Daedalus</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">Ein lokales, multi-agentisches KI-System das selbstständig plant, implementiert, testet, dokumentiert und Code in Git-Repositories committet. Dual-Coder Peer Review: Claude und GPT arbeiten sich gegenseitig durch den Code.</span>
+            <span data-lang="en">A local, multi-agent AI coding system that autonomously plans, implements, tests, documents and commits code to Git repositories. Dual-coder peer review: Claude and GPT cross-review each other's work.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">Claude</span><span class="tag">GPT</span><span class="tag">Multi-Agent</span><span class="tag">Open Source</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Auf GitHub ansehen</span><span data-lang="en">View on GitHub</span> →</span>
+            <span class="card-globe">⌥</span>
           </div>
         </div>
       </a>
@@ -873,7 +970,7 @@
     <div class="cta-card">
       <div>
         <div class="cta-eyebrow"><span data-lang="de">Einstieg</span><span data-lang="en">Get started</span></div>
-        <h2 class="cta-h2"><span data-lang="de">Produkte entdecken oder direkt Kontakt aufnehmen.</span><span data-lang="en">Explore the products or get in touch directly.</span></h2>
+        <h2 class="cta-h2"><span data-lang="de">Projekte entdecken oder direkt Kontakt aufnehmen.</span><span data-lang="en">Explore the projects or get in touch directly.</span></h2>
         <p class="cta-p">
           <span data-lang="de">Je nach Interesse direkt zu hub, zu klara oder zu einer persönlichen Nachricht – ohne Umweg und ohne Reizüberflutung.</span>
           <span data-lang="en">Go straight to hub, to klara or send a personal message — no detours, no noise.</span>
@@ -882,6 +979,7 @@
       <div class="cta-btns">
         <a href="https://api.abler.tirol" class="btn-dark" target="_blank"><span data-lang="de">hub öffnen</span><span data-lang="en">Open hub</span></a>
         <a href="https://klara.abler.tirol" class="btn-green" target="_blank"><span data-lang="de">klara öffnen</span><span data-lang="en">Open klara</span></a>
+        <a href="https://github.com/simonabler/Daedalus" class="btn-outline" target="_blank">Daedalus ⌥</a>
         <a href="#about" class="btn-outline"><span data-lang="de">Über Simon</span><span data-lang="en">About Simon</span></a>
       </div>
     </div>
