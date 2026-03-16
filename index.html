@@ -28,6 +28,8 @@
       --pdf-to:   #312e81;
       --daedalus-from: #1a1a2e;
       --daedalus-to:   #16213e;
+      --sims-from: #134e4a;
+      --sims-to:   #0f3d3a;
       --mono:     'DM Mono', monospace;
       --sans:     'Inter', sans-serif;
       --radius-xl: 2rem;
@@ -357,6 +359,11 @@
     }
     .card-top-daedalus {
       background: linear-gradient(135deg, var(--daedalus-from), var(--daedalus-to));
+      padding: 2rem;
+      color: #fff;
+    }
+    .card-top-sims {
+      background: linear-gradient(135deg, var(--sims-from), var(--sims-to));
       padding: 2rem;
       color: #fff;
     }
@@ -724,7 +731,7 @@
             <div class="widget-top-head">
               <div>
                 <div class="widget-label"><span data-lang="de">Aktive Produkte</span><span data-lang="en">Active Products</span></div>
-                <div class="widget-num">5</div>
+                <div class="widget-num">6</div>
               </div>
               <div class="widget-live">live</div>
             </div>
@@ -755,7 +762,7 @@
   <!-- PRODUCTS -->
   <section id="products">
     <div class="section-eyebrow"><span data-lang="de">Projekte</span><span data-lang="en">Projects</span></div>
-    <h2 class="section-h2"><span data-lang="de">Fünf Projekte, eine Handschrift.</span><span data-lang="en">Five projects, one signature.</span></h2>
+    <h2 class="section-h2"><span data-lang="de">Sechs Projekte, eine Handschrift.</span><span data-lang="en">Six projects, one signature.</span></h2>
     <p class="section-p">
       <span data-lang="de">Von der REST-API bis zum lokalen KI-Agentensystem – unterschiedliche Zielgruppen, eine technische Haltung. Klar, sicher, sauber umgesetzt.</span>
       <span data-lang="en">From REST APIs to local AI agent systems — different audiences, one technical standard. Clear, secure, cleanly executed.</span>
@@ -846,6 +853,27 @@
         </div>
       </a>
 
+
+      <a href="https://sims.abler.tirol" class="product-card" target="_blank">
+        <div class="card-top-sims">
+          <div class="card-eyebrow"><span data-lang="de">Lagerverwaltung · Lager & Betrieb</span><span data-lang="en">Inventory Management · Warehouse & Operations</span></div>
+          <div class="card-name">sims</div>
+          <div class="card-domain">sims.abler.tirol</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">
+            <span data-lang="de">Ein einfaches, übersichtliches Lagerverwaltungssystem für den Alltag. Artikel, Bestände, Bewegungen – klar strukturiert, direkt einsatzbereit. Self-Hosted.</span>
+            <span data-lang="en">A simple, clear inventory management system for everyday use. Items, stock levels, movements — well-structured, ready to use. Self-hosted.</span>
+          </p>
+          <div class="card-tags">
+            <span class="tag">Lager</span><span class="tag">Self-Hosted</span><span class="tag">Open Source</span><span class="tag"><span data-lang="de">demnächst</span><span data-lang="en">soon</span></span>
+          </div>
+          <div class="card-footer">
+            <span class="card-link"><span data-lang="de">Projekt ansehen</span><span data-lang="en">View project</span> →</span>
+            <span class="card-globe">🌐</span>
+          </div>
+        </div>
+      </a>
       <a href="https://github.com/simonabler/Daedalus" class="product-card card-wide" target="_blank">
         <div class="card-top-daedalus">
           <div class="card-eyebrow"><span data-lang="de">Lokales Multi-Agent AI System</span><span data-lang="en">Local Multi-Agent AI System</span></div>
